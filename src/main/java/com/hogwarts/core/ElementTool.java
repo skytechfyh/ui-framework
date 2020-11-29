@@ -44,9 +44,9 @@ public class ElementTool {
 	 * 执行动作
 	 * @param driver	驱动
 	 * @param element	Element
-	 * @param data		测试数据
+	 * @param testCase	测试用例
 	 */
-	public void executeAction(WebDriver driver, Element element, List<String> data){
+	public void executeAction(WebDriver driver, Element element, TestCase testCase){
 		WebElement expectElement = getElement(driver, element);
 		String action = element.getAction();
 		if (action.contains(Action.CLICK.getActionName())){
@@ -54,7 +54,7 @@ public class ElementTool {
 		}
 
 		if (action.contains(Action.SEND_KEYS.getActionName())){
-			expectElement.sendKeys(data.get(Integer.parseInt(action.split(",")[1].trim())-1));
+			expectElement.sendKeys(testCase.getData().get(testCase.index));
 		}
 	}
 

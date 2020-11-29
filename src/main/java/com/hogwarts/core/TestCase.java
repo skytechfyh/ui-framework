@@ -4,6 +4,7 @@ import com.hogwarts.model.Step;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -38,6 +39,23 @@ public class TestCase {
 		this.steps = steps;
 	}
 
+	public int index;
+
+	public List<TestCase> generateTestCase(){
+		List<TestCase> testCaseList = new ArrayList<>();
+		for (int i = 0; i < data.size(); i++) {
+			TestCase newTest = new TestCase();
+			newTest.steps = steps;
+			newTest.data = data;
+			newTest.index = i;
+
+			testCaseList.add(newTest);
+		}
+
+		return testCaseList;
+	}
+
+
 	public void run(){
 		// 设置driver
 		if (StringUtils.isNotEmpty(steps.getBrowser())){
@@ -52,7 +70,7 @@ public class TestCase {
 		driver.get(steps.getUrl());
 
 		steps.getElements().forEach(element -> {
-			elementTool.executeAction(driver, element, data);
+			elementTool.executeAction(driver, element, this);
 		});
 
 		if (steps.isClose()){
